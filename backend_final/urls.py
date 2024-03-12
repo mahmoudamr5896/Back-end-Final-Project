@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.urls import include, path
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from myapp.views import DoctorViewSet, AppointmentViewSet
+from myapp.views import DoctorViewSet, AppointmentViewSet 
 
 router = DefaultRouter()
 router.register(r'doctors', DoctorViewSet)
