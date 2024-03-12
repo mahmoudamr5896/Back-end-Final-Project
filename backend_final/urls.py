@@ -16,13 +16,20 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path,include
-from myapp.views import AppointmentListView
+from myapp.views import AppointmentListView, ReviewFunBaseView
+from rest_framework.routers import DefaultRouter
+
+
+router = DefaultRouter()
+router.register(r'', ReviewFunBaseView, basename='reviews-all')
+
+urlpatterns = router.urls
 
 urlpatterns = [ 
     path("admin/", admin.site.urls),
     path('appointments/', AppointmentListView.as_view(), name='appointment-list'),
+    path('reviews-all/', include(router.urls)),
+
 
     path('api-auth/', include('rest_framework.urls'))   
-
-
 ]

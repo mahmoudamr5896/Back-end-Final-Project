@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 # Create your models here.
 class Appointment(models.Model):
@@ -10,14 +11,13 @@ class Appointment(models.Model):
         return f"Appointment at {self.date_time} - {self.status}"
     
 
-    from django.db import models
 
 
 
 
 class Review(models.Model):
-    
     review_comment = models.TextField()
-    rate = models.PositiveIntegerField()
+    rate = models.PositiveIntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])
+
 
     

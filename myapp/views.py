@@ -16,8 +16,9 @@
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .models import Appointment
-from .serializers import AppointmentSerializer
+from .models import Appointment, Review
+from .serializers import AppointmentSerializer, ReviewSerializer 
+from rest_framework import viewsets
 
 class AppointmentListView(APIView):
     def get(self, request):
@@ -45,9 +46,14 @@ class AppointmentListView(APIView):
         appointment.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
-    def get_object(self, pk):
-        try:
-            return Appointment.objects.get(pk=pk)
-        except Appointment.DoesNotExist:
-            raise Http404
+    # def get_object(self, pk):
+    #     try:
+    #         return Appointment.objects.get(pk=pk)
+    #     except Appointment.DoesNotExist:
+    #         raise Http404
  
+ 
+
+class ReviewFunBaseView(viewsets.ModelViewSet):
+    serializer_class = ReviewSerializer
+    queryset = Review.objects.all()
