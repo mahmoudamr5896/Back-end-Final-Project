@@ -9,9 +9,8 @@ class AppointmentSerializer(serializers.ModelSerializer):
 
 
 class DoctorsSerializer(serializers.ModelSerializer):
-
     class Meta:
-        Model= Doctor
+        model= Doctor
         fields="__all__"
         
         
