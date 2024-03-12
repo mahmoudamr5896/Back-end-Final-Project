@@ -50,3 +50,4 @@ class AppointmentListView(APIView):
             return Appointment.objects.get(pk=pk)
         except Appointment.DoesNotExist:
             raise Http404
+ 
