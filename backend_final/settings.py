@@ -37,6 +37,9 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    'myapp',
+    'rest_framework',
+
 ]
 
 MIDDLEWARE = [
@@ -73,10 +76,16 @@ WSGI_APPLICATION = "backend_final.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
+import os
+
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'finall_project',
+        'USER': 'odoo17_iti',
+        'PASSWORD': '12',
+        'HOST': 'localhost',  
+        'PORT': '5432',      
     }
 }
 
