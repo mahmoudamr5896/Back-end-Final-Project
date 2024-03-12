@@ -1,3 +1,18 @@
+# from django.shortcuts import render
+
+# # Create your views here.
+# # views.py
+# from rest_framework.response import Response
+# from rest_framework.views import APIView
+# from .models import Appointment
+# from .serializers import AppointmentSerializer
+
+# class AppointmentListView(APIView):
+#     def get(self, request):
+#         appointments = Appointment.objects.all()
+#         serializer = AppointmentSerializer(appointments, many=True)
+#         return Response(serializer.data)
+
 from django.http import Http404
 from rest_framework import status
 from rest_framework.views import APIView
