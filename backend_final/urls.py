@@ -20,14 +20,16 @@ from rest_framework.routers import DefaultRouter
 from myapp.views import DoctorViewSet, AppointmentViewSet, ReviewFunBaseView
 
 router = DefaultRouter()
-router.register(r'doctors', DoctorViewSet, basename='doctors')
-router.register(r'appointments', AppointmentViewSet, basename='appointments')
-router.register(r'reviews-all', ReviewFunBaseView, basename='reviews-all')
+router.register(r'', DoctorViewSet, basename='doctors')
+router.register(r'', AppointmentViewSet, basename='appointments')
+router.register(r'', ReviewFunBaseView, basename='reviews-all')
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path('', include(router.urls)),
     path('reviews-all/', include(router.urls)),
+    path('appointments/', include(router.urls)),
+    path('doctors/', include(router.urls)),
     path('api-auth/', include('rest_framework.urls')) ,
 ]
 
