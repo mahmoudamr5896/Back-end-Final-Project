@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.core.validators import MinValueValidator, MaxValueValidator
 # Create your models here.
 
 class Doctor(models.Model):
@@ -18,10 +18,6 @@ class Doctor(models.Model):
     def __str__(self):
         return self.name
 
-
-
-
-
 class Appointment(models.Model):
     date_time = models.DateTimeField()  
     problems = models.TextField()  
@@ -29,3 +25,10 @@ class Appointment(models.Model):
 
     def __str__(self):
         return f"Appointment at {self.date_time} - {self.status}"
+    
+
+
+class Review(models.Model):
+    doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE,null=True,blank=True)
+    review_comment = models.TextField()
+    rate = models.PositiveIntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])
