@@ -9,6 +9,7 @@ class Doctor(models.Model):
     )
     name = models.CharField(max_length=100)
     age = models.PositiveIntegerField()
+    image=models.ImageField(blank=True,null=True)
     experience = models.PositiveIntegerField()
     gender = models.CharField(max_length=1, choices=GENDER_CHOICES)
     phone = models.CharField(max_length=20)
@@ -32,3 +33,28 @@ class Review(models.Model):
     doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE,null=True,blank=True)
     review_comment = models.TextField()
     rate = models.PositiveIntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])
+
+class CustomUser(models.Model):
+    first_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
+    username = models.CharField(max_length=100, unique=True)
+    email = models.EmailField(max_length=255, unique=True)
+    password = models.CharField(max_length=255)
+    role=models.CharField(null=True, blank= True)
+    
+
+    def _str_(self):
+        return self.username
+    
+class Patient(models.Model):
+    id = models.AutoField(primary_key=True)
+    age = models.IntegerField()
+    weight = models.FloatField()
+    height = models.FloatField()
+    gender = models.CharField(max_length=10)
+    phone = models.CharField(max_length=15)
+    medical_history = models.TextField()
+
+    def _str_(self):
+        return f"Patient {self.id}"
+from django.core.validators import MinValueValidator, MaxValueValidator

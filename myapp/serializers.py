@@ -37,3 +37,17 @@ class ReviewSerializer(serializers.ModelSerializer):
     def get_doctor_name(self, obj):
         return obj.doctor.name        
         
+
+
+
+from .models import CustomUser, Patient
+
+class CustomUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CustomUser
+        fields = ['id', 'first_name', 'last_name', 'username', 'email', 'password']
+
+class PatientSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Patient
+        fields = ['age','weight','height','gender','phone','medical_history']
