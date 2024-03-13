@@ -30,6 +30,7 @@ class Appointment(models.Model):
 
 
 class Review(models.Model):
+    doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE,null=True,blank=True)
     review_comment = models.TextField()
     rate = models.PositiveIntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])
 
@@ -53,6 +54,7 @@ class Patient(models.Model):
     gender = models.CharField(max_length=10)
     phone = models.CharField(max_length=15)
     medical_history = models.TextField()
+    
 
     def _str_(self):
         return f"Patient {self.id}"
