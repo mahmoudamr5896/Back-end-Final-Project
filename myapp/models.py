@@ -1,5 +1,4 @@
 from django.db import models
-<<<<<<< HEAD
 #viewset
 # Create your models here.
 from django.db import models
@@ -27,7 +26,6 @@ class Patient(models.Model):
 
     def __str__(self):
         return f"Patient {self.id}"
-=======
 from django.core.validators import MinValueValidator, MaxValueValidator
 # Create your models here.
 
@@ -62,4 +60,3 @@ class Review(models.Model):
     doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE,null=True,blank=True)
     review_comment = models.TextField()
     rate = models.PositiveIntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])
->>>>>>> origin/nard
