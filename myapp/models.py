@@ -6,7 +6,6 @@ class Doctor(models.Model):
     GENDER_CHOICES = (
         ('M', 'Male'),
         ('F', 'Female'),
-        ('O', 'Other')
     )
     name = models.CharField(max_length=100)
     age = models.PositiveIntegerField()
