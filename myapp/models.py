@@ -27,7 +27,6 @@ class Appointment(models.Model):
         return f"Appointment at {self.date_time} - {self.status}"
     
 
-
 class Review(models.Model):
     doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE,null=True,blank=True)
     review_comment = models.TextField()
