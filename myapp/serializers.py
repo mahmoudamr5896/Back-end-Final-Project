@@ -1,7 +1,7 @@
 # myapp/serializers.py
 from rest_framework import serializers
 from .models import Appointment ,Doctor, Review
-
+from .models import CustomUser, Patient
 
 
 class DoctorsSerializer(serializers.ModelSerializer):
@@ -22,7 +22,8 @@ class AppointmentSerializer(serializers.ModelSerializer):
     doctor_name = serializers.SerializerMethodField()
     class Meta:
         model = Appointment
-        fields=['id','doctor', 'doctor_name','date_time','problems','status']   
+        fields=['id','doctor', 'doctor_name','date_time','problems','status'] 
+  
     def get_doctor_name(self, obj):
         return obj.doctor.name      
 
@@ -34,13 +35,14 @@ class ReviewSerializer(serializers.ModelSerializer):
         model = Review
         fields = ['id', 'doctor', 'doctor_name',  'review_comment', 'rate']
 
+
     def get_doctor_name(self, obj):
         return obj.doctor.name        
         
 
 
 
-from .models import CustomUser, Patient
+
 
 class CustomUserSerializer(serializers.ModelSerializer):
     class Meta:
