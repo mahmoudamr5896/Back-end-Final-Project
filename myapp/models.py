@@ -19,6 +19,7 @@ class Doctor(models.Model):
         return self.name
 
 class Appointment(models.Model):
+    doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE,null=True,blank=True)
     date_time = models.DateTimeField()  
     problems = models.TextField()  
     status = models.BooleanField(default=False)  
