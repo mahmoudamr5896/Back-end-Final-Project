@@ -9,7 +9,8 @@ class CustomUser(models.Model):
     username = models.CharField(max_length=100, unique=True)
     email = models.EmailField(max_length=255, unique=True)
     password = models.CharField(max_length=255)
-    repeat_password = models.CharField(max_length=255)
+    role=models.CharField(null=True, blank= True)
+    
 
     def __str__(self):
         return self.username
