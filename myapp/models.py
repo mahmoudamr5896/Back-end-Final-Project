@@ -6,6 +6,7 @@ class Doctor(models.Model):
     GENDER_CHOICES = (
         ('M', 'Male'),
         ('F', 'Female'),
+        ('O', 'Other')
     )
     name = models.CharField(max_length=100)
     age = models.PositiveIntegerField()
@@ -26,6 +27,7 @@ class Appointment(models.Model):
     def __str__(self):
         return f"Appointment at {self.date_time} - {self.status}"
     
+
 
 class Review(models.Model):
     doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE,null=True,blank=True)
