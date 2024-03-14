@@ -19,25 +19,20 @@ from django.urls import include, path
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from myapp import views
-
-
-router = DefaultRouter()
-router.register(r'users', views.CustomUserViewSet)
-router.register(r'patients', views.PatientViewSet)
-
-
-urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', include(router.urls)),
-]
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from myapp.views import DoctorViewSet, AppointmentViewSet, ReviewFunBaseView
+
+
+
+
 
 router = DefaultRouter()
 router.register(r'doctors', DoctorViewSet, basename='doctors')
 router.register(r'appointments', AppointmentViewSet, basename='appointments')
 router.register(r'reviews-all', ReviewFunBaseView, basename='reviews-all')
+router.register(r'users', views.CustomUserViewSet)
+router.register(r'patients', views.PatientViewSet)
 
 urlpatterns = [
     path("admin/", admin.site.urls),

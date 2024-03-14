@@ -17,7 +17,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from .models import Appointment ,Doctor, Review
 from .serializers import AppointmentSerializer ,DoctorsSerializer, ReviewSerializer
-from rest_framework import viewsets
+
 
 class DoctorViewSet(viewsets.ModelViewSet):
     queryset = Doctor.objects.all()
