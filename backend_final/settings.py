@@ -32,7 +32,7 @@ APPEND_SLASH = False
 # Application definition
 
 INSTALLED_APPS = [
-    #"django.contrib.admin",
+    "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     "django.contrib.sites",
     "allauth",
     "allauth.account",
+    'rest_framework.authtoken'
 
 ]
 
@@ -138,6 +139,12 @@ STATIC_FILES_DIRS = [os.path.join(BASE_DIR, "static")]
 # settings.py
 ROOT_URLCONF = "backend_final.urls"
 AUTH_USER_MODEL = "users.User"
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ]
+}
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
