@@ -32,7 +32,7 @@ APPEND_SLASH = False
 # Application definition
 
 INSTALLED_APPS = [
-    "django.contrib.admin",
+    #"django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
@@ -40,8 +40,15 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     'myapp',
     'rest_framework',
+    'users',
+    "django.contrib.sites",
+    "allauth",
+    "allauth.account",
 
 ]
+
+SITE_ID = 1
+
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -51,6 +58,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "allauth.account.middleware.AccountMiddleware",
 ]
 
 ROOT_URLCONF = "backend_final.urls"
@@ -126,11 +134,19 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = "static/"
+STATIC_FILES_DIRS = [os.path.join(BASE_DIR, "static")]
+# settings.py
+ROOT_URLCONF = "backend_final.urls"
+AUTH_USER_MODEL = "users.User"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
-# DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+AUTHENTICATION_BACKENDS = (
+    "django.contrib.auth.backends.ModelBackend",
+    "allauth.account.auth_backends.AuthenticationBackend",)
 
 # REST_FRAMEWORK = {
 #     # Use Django's standard `django.contrib.auth` permissions,
@@ -139,3 +155,25 @@ STATIC_URL = "static/"
 #         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
 #     ]
 # }
+
+
+SITE_ID = 1  # Or set it to your Site ID if you have multiple sites
+
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 1  # Activation link expiration time (1 day)
+
+LOGIN_REDIRECT_URL = "/"
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_HOST_USER = "ae4755740@gmail.com"
+EMAIL_HOST_PASSWORD = "flmbjweippzhouft"
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+ACCOUNT_LOGOUT_REDIRECT_URL = "/"
+LOGIN_URL = "/login/"
+# djauth/settings.py
+LOGIN_REDIRECT_URL = "/user/success"
+LOGOUT_REDIRECT_URL = "/"
+
+STATIC_ROOT = BASE_DIR / 'staticfiles'
