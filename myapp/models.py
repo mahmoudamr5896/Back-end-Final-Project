@@ -54,16 +54,22 @@ class Review(models.Model):
 
 
 class Patient(models.Model):
-    
+    username = models.CharField(unique=True,max_length=100,blank=True, null=True)  # Assuming username is unique
     id = models.AutoField(primary_key=True)
+    name=models.CharField(max_length=100,blank=True, null=True)
     age = models.IntegerField()
     weight = models.FloatField()
     height = models.FloatField()
     gender = models.CharField(max_length=10)
     phone = models.CharField(max_length=15)
     medical_history = models.TextField()
-    
 
-    def _str_(self):
-        return f"Patient {self.id}"
-from django.core.validators import MinValueValidator, MaxValueValidator
+    @property
+    def user(self):
+        return CustomUser.objects.get(username=self.username)
+    
+    def __str__(self):
+        return self.name
+    from django.core.validators import MinValueValidator, MaxValueValidator
+
+

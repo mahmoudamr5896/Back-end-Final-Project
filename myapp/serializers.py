@@ -52,4 +52,4 @@ class CustomUserSerializer(serializers.ModelSerializer):
 class PatientSerializer(serializers.ModelSerializer):
     class Meta:
         model = Patient
-        fields = ['age','weight','height','gender','phone','medical_history']
+        fields = '__all__'
