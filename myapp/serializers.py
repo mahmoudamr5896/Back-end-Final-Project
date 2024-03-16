@@ -20,25 +20,32 @@ class DoctorSerializer2(serializers.ModelSerializer):
 
 class AppointmentSerializer(serializers.ModelSerializer):
     doctor_name = serializers.SerializerMethodField()
+    patient_name = serializers.SerializerMethodField()
+
     class Meta:
         model = Appointment
-        fields=['id','doctor', 'doctor_name','date_time','problems','status'] 
-  
+        fields = ['id', 'doctor', 'doctor_name', 'patient', 'patient_name', 'date_time', 'problems', 'status']
+
     def get_doctor_name(self, obj):
-        return obj.doctor.name      
+        return obj.doctor.name if obj.doctor else None
+
+    def get_patient_name(self, obj):
+        return obj.patient.name if obj.patient else None   
+
 
 class ReviewSerializer(serializers.ModelSerializer):
-    doctor_name = serializers.SerializerMethodField()
-
+    Doctor_Name = serializers.SerializerMethodField()
+    User_Name = serializers.SerializerMethodField()
 
     class Meta:
         model = Review
-        fields = ['id', 'doctor', 'doctor_name',  'review_comment', 'rate']
+        fields = ['id', 'Doctor_id', 'Doctor_Name', 'User_id', 'User_Name', 'Review', 'Rate']
 
+    def get_Doctor_Name(self, obj):
+        return obj.Doctor_id.name if obj.Doctor_id else None
 
-    def get_doctor_name(self, obj):
-        return obj.doctor.name        
-        
+    def get_User_Name(self, obj):
+        return obj.User_id.name if obj.User_id else None
 
 
 

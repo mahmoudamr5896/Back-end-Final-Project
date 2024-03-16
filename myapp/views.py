@@ -15,6 +15,17 @@ class DoctorViewSet(viewsets.ModelViewSet):
         if name_query:
             queryset = queryset.filter(name__icontains=name_query)
         return queryset
+    def create(self, request, *args, **kwargs):
+        username=request.data["username"]
+        name=request.data["name"]
+        age=request.data["age"]
+        image=request.data["image"]
+        experience=request.data["experience"]
+        gender=request.data["gender"]
+        phone=request.data["phone"]
+        location =request.data["location"]
+        Doctor.objects.create(username=username,name=name,age=age,image=image,experience=experience,gender=gender,phone=phone,location=location)
+        return Response(status=status.HTTP_200_OK)
 
 class AppointmentViewSet(viewsets.ModelViewSet):
     queryset = Appointment.objects.all()
@@ -22,7 +33,17 @@ class AppointmentViewSet(viewsets.ModelViewSet):
 
 class ReviewFunBaseView(viewsets.ModelViewSet):
     serializer_class = ReviewSerializer
-    queryset = Review.objects.all()    
+
+    def get_queryset(self):
+        queryset = Review.objects.all()
+
+        # Get the 'doctor_id' from the query parameters if provided
+        doctor_id = self.request.query_params.get('doctor_id')
+
+        if doctor_id:
+            queryset = queryset.filter(Doctor_id=doctor_id)
+
+        return queryset
 
 from .models import CustomUser, Patient
 from .serializers import CustomUserSerializer, PatientSerializer
@@ -34,3 +55,16 @@ class CustomUserViewSet(viewsets.ModelViewSet):
 class PatientViewSet(viewsets.ModelViewSet):
     queryset = Patient.objects.all()
     serializer_class = PatientSerializer
+    def create(self, request, *args, **kwargs):
+        username=request.data["username"]
+
+        name=request.data["name"]
+        age=request.data["age"]
+        image=request.data["image"]
+        weight=request.data["weight"]
+        gender=request.data["gender"]
+        phone=request.data["phone"]
+        height =request.data["height"]
+        medical_history=request.data["medical_history"]
+        Patient.objects.create(username=username,name=name,age=age,image=image,weight=weight,gender=gender,phone=phone,height=height, medical_history= medical_history)
+        return Response(status=status.HTTP_200_OK)

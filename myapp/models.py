@@ -35,32 +35,18 @@ class Doctor(models.Model):
     def user(self):
         return CustomUser.objects.get(username=self.username)
     
-
-class Appointment(models.Model):
-    doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE,null=True,blank=True)
-    date_time = models.DateTimeField()  
-    problems = models.TextField()  
-    status = models.BooleanField(default=False)  
-
-    def __str__(self):
-        return f"Appointment at {self.date_time} - {self.status}"
-    
-
-
-class Review(models.Model):
-    doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE,null=True,blank=True)
-    review_comment = models.TextField()
-    rate = models.PositiveIntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])
-
-
 class Patient(models.Model):
+    GENDER_CHOICES = (
+        ('M', 'Male'),
+        ('F', 'Female'),
+    )
     username = models.CharField(unique=True,max_length=100,blank=True, null=True)  # Assuming username is unique
-    id = models.AutoField(primary_key=True)
     name=models.CharField(max_length=100,blank=True, null=True)
+    image=models.ImageField(upload_to='img',null=True,blank=True)
     age = models.IntegerField()
     weight = models.FloatField()
     height = models.FloatField()
-    gender = models.CharField(max_length=10)
+    gender = models.CharField(max_length=1, choices=GENDER_CHOICES)
     phone = models.CharField(max_length=15)
     medical_history = models.TextField()
 
@@ -72,4 +58,25 @@ class Patient(models.Model):
         return self.name
     from django.core.validators import MinValueValidator, MaxValueValidator
 
+
+
+class Appointment(models.Model):
+    doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE,null=True,blank=True)
+    patient = models.ForeignKey(Patient, on_delete=models.CASCADE,null=True,blank=True)
+    date_time = models.DateTimeField()  
+    problems = models.TextField()  
+    status = models.BooleanField(default=False)  
+
+    def __str__(self):
+        return f"Appointment at {self.date_time} - {self.status}"
+    
+
+
+class Review(models.Model):
+   
+    Doctor_id = models.ForeignKey(Doctor, on_delete=models.CASCADE,null=True,blank=True)
+    User_id = models.ForeignKey(Patient, on_delete=models.CASCADE,null=True,blank=True)
+
+    Review = models.TextField()
+    Rate = models.PositiveIntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])
 
