@@ -65,7 +65,8 @@ class Appointment(models.Model):
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE,null=True,blank=True)
     date_time = models.DateTimeField()  
     problems = models.TextField()  
-    status = models.BooleanField(default=False)  
+    status = models.BooleanField(default=False) 
+    Reasone_reject=models.CharField(max_length=50,blank=True, null=True) 
 
     def __str__(self):
         return f"Appointment at {self.date_time} - {self.status}"

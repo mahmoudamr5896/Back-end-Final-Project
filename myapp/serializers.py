@@ -24,7 +24,7 @@ class AppointmentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Appointment
-        fields = ['id', 'doctor', 'doctor_name', 'patient', 'patient_name', 'date_time', 'problems', 'status']
+        fields = ['id', 'doctor', 'doctor_name', 'patient', 'patient_name', 'date_time', 'problems', 'status','Reasone_reject']
 
     def get_doctor_name(self, obj):
         return obj.doctor.name if obj.doctor else None
