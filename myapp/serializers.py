@@ -8,6 +8,12 @@ class DoctorsSerializer(serializers.ModelSerializer):
     class Meta:
         model= Doctor
         fields="__all__"
+
+
+    def get_image_url(self, obj):
+        if obj.image:
+            return obj.image.url
+        return None
         
 
 

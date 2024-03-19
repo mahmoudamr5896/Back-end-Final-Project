@@ -37,16 +37,11 @@ class Doctor(models.Model):
         return CustomUser.objects.get(username=self.username)
     
     def generate_availability(self):
-        # Implement logic to generate availability
-        # For example, you might query appointments for this doctor
-        # and return a list of available time slots
+
         current_time = timezone.now()
-        # Example logic to return available time slots for the next week
         available_slots = []
         for i in range(7):
             date = current_time + timezone.timedelta(days=i)
-            # Check if the doctor is available on this date and time
-            # If available, add it to available_slots list
             available_slots.append(date)
         return available_slots
     
@@ -98,17 +93,9 @@ class Review(models.Model):
 
 
 class Availability(models.Model):
-    DAY_CHOICES = (
-        ('Monday', 'Monday'),
-        ('Tuesday', 'Tuesday'),
-        ('Wednesday', 'Wednesday'),
-        ('Thursday', 'Thursday'),
-        ('Friday', 'Friday'),
-        ('Saturday', 'Saturday'),
-        ('Sunday', 'Sunday'),
-    )
+
     doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE,blank=True, null=True)
-    day = models.CharField(max_length=10, choices=DAY_CHOICES,blank=True, null=True)
+    day = models.CharField(max_length=30,blank=True, null=True)
     start_time = models.TimeField(blank=True, null=True)
     end_time = models.TimeField(blank=True, null=True)
 
