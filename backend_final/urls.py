@@ -19,6 +19,8 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from myapp.views import CustomUserViewSet, DoctorViewSet, AppointmentViewSet, PatientViewSet, ReviewFunBaseView
 from users.views import UserViewSet, AuthViewSet
+from myapp.views import AvailabilityViewSet
+from myapp.views import DoctorAvailabilityView
 
 router = DefaultRouter()
 router.register(r'doctors', DoctorViewSet, basename='doctors')
@@ -26,11 +28,14 @@ router.register(r'appointments', AppointmentViewSet, basename='appointments')
 router.register(r'reviews-all', ReviewFunBaseView, basename='reviews-all')
 router.register(r'patients', PatientViewSet)
 router.register(r'users', UserViewSet, basename='user')
+router.register(r'availabilities', AvailabilityViewSet)
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path('', include(router.urls)),
     path('api-auth/', include('rest_framework.urls')),
     path('auth/login/', AuthViewSet.as_view({'post': 'login'}), name='login'),
+path('doctors/<int:doctor_id>/availability/', DoctorAvailabilityView.as_view(), name='doctor_availability'),
+
 ]+ router.urls
 

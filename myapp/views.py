@@ -68,3 +68,40 @@ class PatientViewSet(viewsets.ModelViewSet):
         medical_history=request.data["medical_history"]
         Patient.objects.create(username=username,name=name,age=age,image=image,weight=weight,gender=gender,phone=phone,height=height, medical_history= medical_history)
         return Response(status=status.HTTP_200_OK)
+    
+
+# views.py
+from rest_framework import generics
+from .models import Availability
+from .serializers import AvailabilitySerializer
+
+from .models import Availability
+from .serializers import AvailabilitySerializer
+
+class AvailabilityViewSet(viewsets.ModelViewSet):
+    queryset = Availability.objects.all()
+    serializer_class = AvailabilitySerializer
+     
+                 # Get the 'doctor_id' from the query parameters if provided
+    def get_queryset(self):
+        queryset = Availability.objects.all()
+        # Get the 'doctor_id' from the query parameters if provided
+        doctor_id = self.request.query_params.get('doctor')
+
+        if doctor_id:
+            queryset = queryset.filter(doctor=doctor_id)
+
+        return queryset
+ 
+
+
+
+class DoctorAvailabilityView(APIView):
+    def get(self, request, doctor_id):
+        try:
+            doctor = Doctor.objects.get(pk=doctor_id)
+            availability = doctor.generate_availability()  # Assuming you have implemented this method in the Doctor model
+            serializer = AvailabilitySerializer(availability)
+            return Response(serializer.data)
+        except Doctor.DoesNotExist:
+            return Response({"error": "Doctor not found"}, status=404)
