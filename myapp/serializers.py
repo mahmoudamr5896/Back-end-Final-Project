@@ -1,6 +1,6 @@
 # myapp/serializers.py
 from rest_framework import serializers
-from .models import Appointment ,Doctor, Review
+from .models import Appointment ,Doctor, Payment, Review
 from .models import CustomUser, Patient
 
 
@@ -67,4 +67,22 @@ class AvailabilitySerializer(serializers.ModelSerializer):
         model = Availability
         fields = '__all__'
 
-  
+
+
+class PaymentSerializer(serializers.ModelSerializer):
+    appointment_id = serializers.PrimaryKeyRelatedField(queryset=Appointment.objects.all(), source='appointment', write_only=True)
+    
+    doctor_name = serializers.SerializerMethodField()
+    patient_name = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Payment
+        fields = ['id', 'appointment_id', 'doctor_name', 'patient_name', 'card_number', 'expire', 'security_code', 'amount', 'payment_date']
+
+    def get_doctor_name(self, obj):
+        appointment = obj.appointment
+        return appointment.doctor.name if appointment else None
+
+    def get_patient_name(self, obj):
+        appointment = obj.appointment
+        return appointment.patient.name if appointment else None
