@@ -7,6 +7,7 @@ from rest_framework.viewsets import ViewSet
 from rest_framework.authtoken.models import Token
 from django.contrib.auth import authenticate, login
 from .serializers import UserSerializer
+from rest_framework.permissions import AllowAny
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
@@ -14,6 +15,7 @@ class UserViewSet(viewsets.ModelViewSet):
 
 
 class AuthViewSet(ViewSet):
+    permission_classes=[AllowAny]
     def create(self, request):
         serializer = UserSerializer(data=request.data)
         if serializer.is_valid():

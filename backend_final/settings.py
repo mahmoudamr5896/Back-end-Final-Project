@@ -147,9 +147,13 @@ ROOT_URLCONF = "backend_final.urls"
 AUTH_USER_MODEL = "users.User"
 
 REST_FRAMEWORK = {
+      #'DEFAULT_PERMISSION_CLASSES': (
+      #  'rest_framework.permissions.IsAuthenticated',
+    #),
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication',
     ]
+
 }
 
 # Default primary key field type
