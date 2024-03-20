@@ -77,7 +77,7 @@ class Appointment(models.Model):
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE,null=True,blank=True)
     date_time = models.CharField()  
     problems = models.TextField()
-    username=models.CharField(max_length=30)
+    username=models.CharField(max_length=30,blank=True, null=True)
     status = models.BooleanField(default=False) 
     Reasone_reject=models.CharField(max_length=50,blank=True, null=True) 
 
