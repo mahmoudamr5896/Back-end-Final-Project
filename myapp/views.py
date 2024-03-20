@@ -2,15 +2,12 @@ from django.http import Http404
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
-<<<<<<< HEAD
 from .models import Appointment ,Doctor, Payment, Review
 from .serializers import AppointmentSerializer ,DoctorsSerializer, PaymentSerializer, ReviewSerializer
-=======
 
 from users.models import User
 from .models import Appointment ,Doctor, Review
 from .serializers import AppointmentSerializer ,DoctorsSerializer, ReviewSerializer
->>>>>>> origin/ahmedreda7
 from rest_framework import viewsets
 from django.core.mail import EmailMultiAlternatives
 
