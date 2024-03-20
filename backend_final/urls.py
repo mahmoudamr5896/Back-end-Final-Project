@@ -35,7 +35,7 @@ urlpatterns = [
     path('', include(router.urls)),
     path('api-auth/', include('rest_framework.urls')),
     path('auth/login/', AuthViewSet.as_view({'post': 'login'}), name='login'),
-path('doctors/<int:doctor_id>/availability/', DoctorAvailabilityView.as_view(), name='doctor_availability'),
+    path('doctors/<int:doctor_id>/availability/', DoctorAvailabilityView.as_view(), name='doctor_availability'),
 
 ]+ router.urls
 

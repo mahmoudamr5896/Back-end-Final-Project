@@ -2,9 +2,12 @@ from django.http import Http404
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
+
+from users.models import User
 from .models import Appointment ,Doctor, Review
 from .serializers import AppointmentSerializer ,DoctorsSerializer, ReviewSerializer
 from rest_framework import viewsets
+from django.core.mail import EmailMultiAlternatives
 
 class DoctorViewSet(viewsets.ModelViewSet):
     queryset = Doctor.objects.all()
@@ -31,6 +34,38 @@ class AppointmentViewSet(viewsets.ModelViewSet):
     queryset = Appointment.objects.all()
     serializer_class = AppointmentSerializer
 
+    def update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        respone= super().update(request, *args, **kwargs)
+        status = request.data["status"]
+        user = User.objects.filter(username__iexact=instance.username).first()
+        email  = user.email
+        self.send_approve_mail(status,email)
+        return respone
+    
+    @staticmethod
+    def send_approve_mail(approve,email):
+        if approve:
+            message = "Your appointment has been approved , visit your profile for more informations."
+            email_subject = "appointment approved"
+        else:
+            message = "Your appointment has been rejected , visit your profile for more informations."
+            email_subject = "appointment rejected"
+
+        try:
+          
+            email_sender = "sender@example.com"
+            email_recipient = email
+
+            email_message = EmailMultiAlternatives(
+                subject=email_subject,
+                body=message,
+                from_email=email_sender,
+                to=[email_recipient, ]
+            )
+            email_message.send(fail_silently=False)
+        except Exception as e:
+            print(e)
 class ReviewFunBaseView(viewsets.ModelViewSet):
     serializer_class = ReviewSerializer
 
