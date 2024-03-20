@@ -1,10 +1,12 @@
-from django.http import Http404
+from django.http import Http404, HttpResponse
+from django.shortcuts import redirect
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from .models import Appointment ,Doctor, Payment, Review
 from .serializers import AppointmentSerializer ,DoctorsSerializer, PaymentSerializer, ReviewSerializer
 from rest_framework import viewsets
+import paypalrestsdk
 
 class DoctorViewSet(viewsets.ModelViewSet):
     queryset = Doctor.objects.all()
@@ -109,3 +111,48 @@ class DoctorAvailabilityView(APIView):
 class PaymentViewSet(viewsets.ModelViewSet):
     queryset = Payment.objects.all()
     serializer_class = PaymentSerializer
+
+
+paypalrestsdk.configure({
+    "mode": "sandbox", # Use "live" for production
+    "client_id": "<YOUR_CLIENT_ID>",
+    "client_secret": "<YOUR_CLIENT_SECRET>"
+})
+
+def create_payment(request):
+    payment = paypalrestsdk.Payment({
+        "intent": "sale",
+        "payer": {
+            "payment_method": "paypal"
+        },
+        "redirect_urls": {
+            "return_url": "<YOUR_RETURN_URL>",
+            "cancel_url": "<YOUR_CANCEL_URL>"
+        },
+        "transactions": [{
+            "item_list": {
+                "items": [{
+                    "name": "Item 1",
+                    "sku": "item_1",
+                    "price": "10.00",
+                    "currency": "USD",
+                    "quantity": 1
+                }]
+            },
+            "amount": {
+                "total": "10.00",
+                "currency": "USD"
+            },
+            "description": "This is a test transaction."
+        }]
+    })
+
+    if payment.create():
+        # Redirect the user to the PayPal approval URL
+        for link in payment.links:
+            if link.method == "REDIRECT":
+                redirect_url = link.href
+                return redirect(redirect_url)
+    else:
+        # Handle payment creation errors
+        return HttpResponse("Error: " + payment.error)    
