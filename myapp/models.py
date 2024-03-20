@@ -82,7 +82,7 @@ class Appointment(models.Model):
 
     def __str__(self):
         return f"Appointment at {self.date_time} - {self.status}"
-    
+    from rest_framework import viewsets, status
 
 
 class Review(models.Model):

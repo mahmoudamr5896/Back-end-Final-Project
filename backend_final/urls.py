@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from myapp.views import CustomUserViewSet, DoctorViewSet, AppointmentViewSet, PatientViewSet, PaymentViewSet, ReviewFunBaseView
+from myapp.views import CustomUserViewSet, DoctorViewSet, AppointmentViewSet, PatientViewSet, ReviewFunBaseView
 from users.views import UserViewSet, AuthViewSet
 from myapp.views import AvailabilityViewSet
 from myapp.views import DoctorAvailabilityView
@@ -29,7 +29,6 @@ router.register(r'reviews-all', ReviewFunBaseView, basename='reviews-all')
 router.register(r'patients', PatientViewSet)
 router.register(r'users', UserViewSet, basename='user')
 router.register(r'availabilities', AvailabilityViewSet)
-router.register(r'payments', PaymentViewSet)
 
 urlpatterns = [
     path("admin/", admin.site.urls),
