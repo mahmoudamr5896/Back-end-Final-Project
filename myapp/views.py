@@ -2,8 +2,8 @@ from django.http import Http404
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .models import Appointment ,Doctor, Review
-from .serializers import AppointmentSerializer ,DoctorsSerializer, ReviewSerializer
+from .models import Appointment ,Doctor, Payment, Review
+from .serializers import AppointmentSerializer ,DoctorsSerializer, PaymentSerializer, ReviewSerializer
 from rest_framework import viewsets
 
 class DoctorViewSet(viewsets.ModelViewSet):
@@ -105,3 +105,7 @@ class DoctorAvailabilityView(APIView):
             return Response(serializer.data)
         except Doctor.DoesNotExist:
             return Response({"error": "Doctor not found"}, status=404)
+        
+class PaymentViewSet(viewsets.ModelViewSet):
+    queryset = Payment.objects.all()
+    serializer_class = PaymentSerializer
