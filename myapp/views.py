@@ -156,3 +156,55 @@ def create_payment(request):
     else:
         # Handle payment creation errors
         return HttpResponse("Error: " + payment.error)    
+    
+def paypal_success(request):
+    # Handle successful PayPal payment here
+    return HttpResponse("Payment successful. Thank you!")
+
+def paypal_cancel(request):
+    # Handle canceled PayPal payment here
+    return HttpResponse("Payment canceled.")
+
+paypalrestsdk.configure({
+    "mode": "sandbox",  # Use "live" for production
+    "client_id": "Ac33URymejOEqeyKbbCIB9ZBp2q9Yf1LTtUV7-mSyQrFWls4w40cgFN7H96P2Bh8GyLa0GY1lKrzIz2V",
+    "client_secret": "EOxozpUAMQWpxUsBIq_vt9e5nkLpgu3ccv8YpWUlBF16N0Kpmr7bTpxaMCMILOAzvzhT4lsEFBfcIr3s"
+})
+
+def create_payment(request):
+    payment = paypalrestsdk.Payment({
+        "intent": "sale",
+        "payer": {
+            "payment_method": "paypal"
+        },
+        "redirect_urls": {
+          "return_url": "http://127.0.0.1:8000/paypal/success/",  # Update with your localhost URL
+           "cancel_url": "http://127.0.0.1:8000/paypal/cancel/",   # Update with your localhost URL
+        },
+        "transactions": [{
+            "item_list": {
+                "items": [{
+                    "name": "Item 1",
+                    "sku": "item_1",
+                    "price": "10.00",
+                    "currency": "USD",
+                    "quantity": 1
+                }]
+            },
+            "amount": {
+                "total": "10.00",
+                "currency": "USD"
+            },
+            "description": "This is a test transaction."
+        }]
+    })
+
+    if payment.create():
+        # Redirect the user to the PayPal approval URL
+        for link in payment.links:
+            if link.method == "REDIRECT":
+                redirect_url = link.href
+                return redirect(redirect_url)
+    else:
+        # Handle payment creation errors
+        return HttpResponse("Error: " + payment.error)

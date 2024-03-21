@@ -17,10 +17,14 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
+from myapp import views
 from myapp.views import CustomUserViewSet, DoctorViewSet, AppointmentViewSet, PatientViewSet, PaymentViewSet, ReviewFunBaseView
 from users.views import UserViewSet, AuthViewSet
 from myapp.views import AvailabilityViewSet
 from myapp.views import DoctorAvailabilityView
+
+# from django.urls import path
+# from . import views
 
 router = DefaultRouter()
 router.register(r'doctors', DoctorViewSet, basename='doctors')
@@ -33,10 +37,13 @@ router.register(r'payments', PaymentViewSet)
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    
     path('', include(router.urls)),
     path('api-auth/', include('rest_framework.urls')),
     path('auth/login/', AuthViewSet.as_view({'post': 'login'}), name='login'),
-path('doctors/<int:doctor_id>/availability/', DoctorAvailabilityView.as_view(), name='doctor_availability'),
+    path('doctors/<int:doctor_id>/availability/', DoctorAvailabilityView.as_view(), name='doctor_availability'),
+    path('paypal/success/', views.paypal_success, name='paypal_success'),
+    path('paypal/cancel/', views.paypal_cancel, name='paypal_cancel'),
+]
 
-]+ router.urls
-
+urlpatterns += router.urls
