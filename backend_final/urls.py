@@ -22,6 +22,8 @@ from myapp.views import CustomUserViewSet, DoctorViewSet, AppointmentViewSet, Pa
 from users.views import UserViewSet, AuthViewSet
 from myapp.views import AvailabilityViewSet
 from myapp.views import DoctorAvailabilityView
+from django.conf.urls.static import static
+from django.conf import settings
 
 # from django.urls import path
 # from . import views
@@ -44,6 +46,7 @@ urlpatterns = [
     path('doctors/<int:doctor_id>/availability/', DoctorAvailabilityView.as_view(), name='doctor_availability'),
     path('paypal/success/', views.paypal_success, name='paypal_success'),
     path('paypal/cancel/', views.paypal_cancel, name='paypal_cancel'),
-]
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 urlpatterns += router.urls
+

@@ -5,13 +5,10 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from .models import Appointment ,Doctor, Payment, Review
 from .serializers import AppointmentSerializer ,DoctorsSerializer, PaymentSerializer, ReviewSerializer
-<<<<<<< HEAD
-=======
 
 from users.models import User
 from .models import Appointment ,Doctor, Review
 from .serializers import AppointmentSerializer ,DoctorsSerializer, ReviewSerializer
->>>>>>> origin/mahmoud-7
 from rest_framework import viewsets
 import paypalrestsdk
 

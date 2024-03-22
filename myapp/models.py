@@ -1,8 +1,8 @@
 from datetime import timezone
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
-from creditcards.models import SecurityCodeField,CardExpiryField,CardNumberField
 from django.core.validators import RegexValidator
+from creditcards.models import SecurityCodeField, CardExpiryField, CardNumberField  # Move this import here
 # Create your models here.
 
 class CustomUser(models.Model):
@@ -54,7 +54,7 @@ class Patient(models.Model):
     )
     username = models.CharField(unique=True,max_length=100,blank=True, null=True)  # Assuming username is unique
     name=models.CharField(max_length=100,blank=True, null=True)
-    image=models.ImageField(upload_to='img',null=True,blank=True)
+    image = models.ImageField(blank=True, null=True)
     age = models.IntegerField()
     weight = models.FloatField()
     height = models.FloatField()
@@ -109,10 +109,14 @@ class MMYYYYValidator(RegexValidator):
     regex = r'^\d{2}/\d{4}$'
     message = 'Enter a valid MM/YYYY format.'
 
+
 class Payment(models.Model):
-    appointment = models.ForeignKey(Appointment, on_delete=models.CASCADE)
+    appointment = models.ForeignKey('Appointment', on_delete=models.CASCADE)
     card_number = CardNumberField()
     expire = models.CharField(validators=[MMYYYYValidator()], max_length=7)  # MM/YYYY format
     security_code = SecurityCodeField()
-    amount = models.DecimalField(max_digits=10, decimal_places=2, validators=[MinValueValidator(0.01)]) 
+    amount = models.DecimalField(max_digits=10, decimal_places=2, validators=[MinValueValidator(0.01)])
     payment_date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Payment for appointment on {self.appointment.date_time}"
