@@ -45,7 +45,9 @@ INSTALLED_APPS = [
     "allauth",
     "allauth.account",
     'rest_framework.authtoken',
-        'corsheaders',
+    'corsheaders',
+    # 'jasmine',
+
 
 
 ]
