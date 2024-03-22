@@ -137,6 +137,8 @@ CORS_ALLOW_ALL_ORIGINS = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 STATIC_URL = "static/"
 STATIC_FILES_DIRS = [os.path.join(BASE_DIR, "static")]
@@ -145,9 +147,13 @@ ROOT_URLCONF = "backend_final.urls"
 AUTH_USER_MODEL = "users.User"
 
 REST_FRAMEWORK = {
+      #'DEFAULT_PERMISSION_CLASSES': (
+      #  'rest_framework.permissions.IsAuthenticated',
+    #),
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication',
     ]
+
 }
 
 # Default primary key field type
