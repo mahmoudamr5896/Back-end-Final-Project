@@ -1,6 +1,8 @@
 from datetime import timezone
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
+from creditcards.models import SecurityCodeField,CardExpiryField,CardNumberField
+from django.core.validators import RegexValidator
 # Create your models here.
 
 class CustomUser(models.Model):
@@ -102,3 +104,15 @@ class Availability(models.Model):
 
     def __str__(self):
         return f"{self.doctor.name} - {self.day} - {self.start_time} to {self.end_time}"
+    
+class MMYYYYValidator(RegexValidator):
+    regex = r'^\d{2}/\d{4}$'
+    message = 'Enter a valid MM/YYYY format.'
+
+class Payment(models.Model):
+    appointment = models.ForeignKey(Appointment, on_delete=models.CASCADE)
+    card_number = CardNumberField()
+    expire = models.CharField(validators=[MMYYYYValidator()], max_length=7)  # MM/YYYY format
+    security_code = SecurityCodeField()
+    amount = models.DecimalField(max_digits=10, decimal_places=2, validators=[MinValueValidator(0.01)]) 
+    payment_date = models.DateTimeField(auto_now_add=True)
