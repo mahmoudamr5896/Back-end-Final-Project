@@ -14,8 +14,9 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from django.contrib.auth import views as auth_views
+from django.urls import path, include, reverse_lazy
 from django.contrib import admin
-from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from myapp import views
 from myapp.views import CustomUserViewSet, DoctorViewSet, AppointmentViewSet, PatientViewSet, PaymentViewSet, ReviewFunBaseView
@@ -24,9 +25,6 @@ from myapp.views import AvailabilityViewSet
 from myapp.views import DoctorAvailabilityView
 from django.conf.urls.static import static
 from django.conf import settings
-
-# from django.urls import path
-# from . import views
 
 router = DefaultRouter()
 router.register(r'doctors', DoctorViewSet, basename='doctors')
@@ -39,14 +37,13 @@ router.register(r'payments', PaymentViewSet)
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    
+    path("admin/logout/", auth_views.LogoutView.as_view(next_page=reverse_lazy("admin:login")), name="logout"),
     path('', include(router.urls)),
     path('api-auth/', include('rest_framework.urls')),
     path('auth/login/', AuthViewSet.as_view({'post': 'login'}), name='login'),
     path('doctors/<int:doctor_id>/availability/', DoctorAvailabilityView.as_view(), name='doctor_availability'),
     path('paypal/success/', views.paypal_success, name='paypal_success'),
     path('paypal/cancel/', views.paypal_cancel, name='paypal_cancel'),
-]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 urlpatterns += router.urls
-
