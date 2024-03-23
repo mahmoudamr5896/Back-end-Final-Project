@@ -79,6 +79,7 @@ class Appointment(models.Model):
     problems = models.TextField()
     username=models.CharField(max_length=30)
     status = models.BooleanField(default=False) 
+    Paid = models.BooleanField(default=False) 
     Reasone_reject=models.CharField(max_length=50,blank=True, null=True) 
 
     def __str__(self):

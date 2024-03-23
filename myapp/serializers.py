@@ -30,7 +30,7 @@ class AppointmentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Appointment
-        fields = ['id', 'doctor', 'doctor_name', 'patient', 'patient_name', 'date_time', 'problems' , 'username' , 'status','Reasone_reject']
+        fields = ['id', 'doctor', 'doctor_name', 'patient', 'patient_name', 'date_time', 'problems' , 'username' , 'status','Reasone_reject','Paid']
 
     def get_doctor_name(self, obj):
         return obj.doctor.name if obj.doctor else None
@@ -77,13 +77,18 @@ class AvailabilitySerializer(serializers.ModelSerializer):
 
 class PaymentSerializer(serializers.ModelSerializer):
     appointment_id = serializers.PrimaryKeyRelatedField(queryset=Appointment.objects.all(), source='appointment', write_only=True)
-    
+    doctor_id = serializers.SerializerMethodField()  # Add doctor_id field
+
     doctor_name = serializers.SerializerMethodField()
     patient_name = serializers.SerializerMethodField()
 
     class Meta:
         model = Payment
-        fields = ['id', 'appointment_id', 'doctor_name', 'patient_name', 'card_number', 'expire', 'security_code', 'amount', 'payment_date']
+        fields = ['id', 'appointment_id', 'doctor_id', 'doctor_name', 'patient_name', 'card_number', 'expire', 'security_code', 'amount', 'payment_date']
+
+    def get_doctor_id(self, obj):
+        appointment = obj.appointment
+        return appointment.doctor.id if appointment else None
 
     def get_doctor_name(self, obj):
         appointment = obj.appointment
