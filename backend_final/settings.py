@@ -32,6 +32,7 @@ APPEND_SLASH = False
 # Application definition
 
 INSTALLED_APPS = [
+    'jazzmin',
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -78,10 +79,13 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                # 'jazzmin.context_processors.settings',
+                
             ],
         },
     },
 ]
+
 
 WSGI_APPLICATION = "backend_final.wsgi.application"
 
@@ -188,3 +192,82 @@ LOGIN_REDIRECT_URL = "/user/success"
 LOGOUT_REDIRECT_URL = "/"
 
 STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+JAZZMIN_SETTINGS = {
+    "site_title": "MR.Health",
+    "site_header": "MR.Health",
+    "site_brand": "MR.Health",
+    "site_icon": "For_Rent_Backend/static/images/logo.jpeg",
+    "show_ui_builder": True,
+    "site_footer": "Copyright © 2024 MR.Health",
+    "welcome_sign": "Welcome to MR.Health Admin Panel",
+    "site_style": "info",  # Change the theme to 'info'
+    "dark_mode_theme": "darkly",  # Set the dark mode theme to 'darkly'
+    "show_apps": True,
+    "show_models": True,
+    "related_modal_active": True,
+    "default_icon_parents": "fa fa-list",
+    "default_icon_children": "fas fa-chevron-circle-right",
+    'icons': {
+        'auth': 'fas fa-users-cog',
+        'auth.user': 'fas fa-user',
+        'auth.group': 'fas fa-users',
+        'myapp.customuser': 'fas fa-user',
+        'myapp.doctor': 'fas fa-user-md',
+        'myapp.patient': 'fas fa-user-injured',
+        'myapp.appointment': 'fas fa-calendar-check',
+        'myapp.review': 'fas fa-star',
+        'myapp.availability': 'fas fa-clock',
+        'myapp.payment': 'fas fa-credit-card',
+    },
+    'dashboard_custom': False,
+    'custom_css': None,
+    'custom_js': None,
+    'button_classes': {
+        'primary': 'btn btn-primary',  
+        'secondary': 'btn btn-secondary',  
+        'success': 'btn btn-success',  
+        'info': 'btn btn-info',  
+        'warning': 'btn btn-warning',  
+        'danger': 'btn btn-danger',  
+        'add': 'btn btn-success', 
+    },
+    'navbar_small_text': False,  
+    'top_navbar': True, 
+    'hide_apps': ['sites'],  
+    'hide_models': ['auth.Group'],  
+    'changeform_format': 'horizontal', 
+    'related_modal_active': True,  
+    'app_title_style': 'roman',  
+}
+JAZZMIN_UI_TWEAKS = {
+    "navbar_small_text": False,
+    "footer_small_text": False,
+    "body_small_text": False,
+    "brand_small_text": False,
+    "brand_colour": "navbar-success",
+    "accent": "accent-teal",
+    "navbar": "navbar-dark",
+    "no_navbar_border": True,
+    "navbar_fixed": False,
+    "layout_boxed": False,
+    "footer_fixed": False,
+    "sidebar_fixed": False,
+    "sidebar": "sidebar-dark-info",
+    "sidebar_nav_small_text": False,
+    "sidebar_disable_expand": False,
+    "sidebar_nav_child_indent": False,
+    "sidebar_nav_compact_style": False,
+    "sidebar_nav_legacy_style": False,
+    "sidebar_nav_flat_style": False,
+    "theme": "litera",
+    "dark_mode_theme": None,
+    "button_classes": {
+        "primary": "btn-primary",
+        "secondary": "btn-secondary",
+        "info": "btn-info",
+        "warning": "btn-warning",
+        "danger": "btn-danger",
+        "success": "btn-success",
+    },
+}
