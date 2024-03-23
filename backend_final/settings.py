@@ -193,22 +193,29 @@ LOGOUT_REDIRECT_URL = "/"
 
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
+
 JAZZMIN_SETTINGS = {
-    "site_title": "MR.Health",
-    "site_header": "MR.Health",
-    "site_brand": "MR.Health",
+    "site_title": "ForRent",
+    "site_header": "ForRent",
+    "site_brand": "ForRent",
     "site_icon": "For_Rent_Backend/static/images/logo.jpeg",
-    "show_ui_builder": True,
-    "site_footer": "Copyright © 2024 MR.Health",
-    "welcome_sign": "Welcome to MR.Health Admin Panel",
-    "site_style": "info",  # Change the theme to 'info'
-    "dark_mode_theme": "darkly",  # Set the dark mode theme to 'darkly'
-    "show_apps": True,
-    "show_models": True,
+    "welcome_sign": "Welcome to ForRent",
+    "copyright": "ForRent",
     "related_modal_active": True,
-    "default_icon_parents": "fa fa-list",
-    "default_icon_children": "fas fa-chevron-circle-right",
-    'icons': {
+    "user_avatar": None,
+    "topmenu_links": [
+        {"app": "doctors", "label": "doctors"},
+        {"app": "appointments", "label": "appointments"},
+        {"app": "reviews-all", "label": "reviews-all"},
+        {"app": "patients", "label": "patients"},
+        {"app": "users", "label": "users"},
+        {"app": "availabilities", "label": "availabilities"},
+        {"app": "payments", "label": "payments"},
+
+    ],
+    "show_sidebar": True,
+    "navigation_expanded": True,
+     'icons': {
         'auth': 'fas fa-users-cog',
         'auth.user': 'fas fa-user',
         'auth.group': 'fas fa-users',
@@ -220,25 +227,15 @@ JAZZMIN_SETTINGS = {
         'myapp.availability': 'fas fa-clock',
         'myapp.payment': 'fas fa-credit-card',
     },
-    'dashboard_custom': False,
-    'custom_css': None,
-    'custom_js': None,
-    'button_classes': {
-        'primary': 'btn btn-primary',  
-        'secondary': 'btn btn-secondary',  
-        'success': 'btn btn-success',  
-        'info': 'btn btn-info',  
-        'warning': 'btn btn-warning',  
-        'danger': 'btn btn-danger',  
-        'add': 'btn btn-success', 
+    "default_icon_parents": "fas fa-chevron-circle-right",
+    "default_icon_children": "fas fa-arrow-circle-right",
+    "custom_js": None,
+    "show_ui_builder": False,
+    "changeform_format": "horizontal_tabs",
+    "changeform_format_overrides": {
+        "auth.user": "collapsible",
+        "auth.group": "vertical_tabs",
     },
-    'navbar_small_text': False,  
-    'top_navbar': True, 
-    'hide_apps': ['sites'],  
-    'hide_models': ['auth.Group'],  
-    'changeform_format': 'horizontal', 
-    'related_modal_active': True,  
-    'app_title_style': 'roman',  
 }
 JAZZMIN_UI_TWEAKS = {
     "navbar_small_text": False,
