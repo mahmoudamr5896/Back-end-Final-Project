@@ -60,7 +60,10 @@ class Patient(models.Model):
     height = models.FloatField()
     gender = models.CharField(max_length=1, choices=GENDER_CHOICES)
     phone = models.CharField(max_length=15)
-    medical_history = models.TextField()
+    Diabetes_Mellitus = models.BooleanField(default=False)
+    Hypertension = models.BooleanField(default=False)
+    Chronic_Kidney_Disease = models.BooleanField(default=False)
+    Heart_Disease = models.BooleanField(default=False)
 
     @property
     def user(self):
