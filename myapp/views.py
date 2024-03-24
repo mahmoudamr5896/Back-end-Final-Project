@@ -3,10 +3,6 @@ from django.shortcuts import redirect
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
-<<<<<<< HEAD
-
-=======
->>>>>>> 541dadc4d8dc8e1cc4898b49f7501654739e2919
 from users.models import User
 from .models import Appointment ,Doctor, Review
 from .serializers import AppointmentSerializer ,DoctorsSerializer, ReviewSerializer
@@ -16,11 +12,8 @@ from .models import Appointment ,Doctor, Payment, Review
 from .serializers import AppointmentSerializer ,DoctorsSerializer, PaymentSerializer, ReviewSerializer
 from rest_framework import viewsets
 import paypalrestsdk
-<<<<<<< HEAD
-=======
 import json
 
->>>>>>> 541dadc4d8dc8e1cc4898b49f7501654739e2919
 
 class DoctorViewSet(viewsets.ModelViewSet):
     queryset = Doctor.objects.all()
