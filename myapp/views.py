@@ -1,9 +1,8 @@
-from django.http import Http404, HttpResponse
+from django.http import Http404, HttpResponse , JsonResponse
 from django.shortcuts import redirect
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
-
 from users.models import User
 from .models import Appointment ,Doctor, Review
 from .serializers import AppointmentSerializer ,DoctorsSerializer, ReviewSerializer
@@ -13,6 +12,8 @@ from .models import Appointment ,Doctor, Payment, Review
 from .serializers import AppointmentSerializer ,DoctorsSerializer, PaymentSerializer, ReviewSerializer
 from rest_framework import viewsets
 import paypalrestsdk
+import json
+
 
 class DoctorViewSet(viewsets.ModelViewSet):
     queryset = Doctor.objects.all()
@@ -194,3 +195,280 @@ def create_payment(request):
     else:
         # Handle payment creation errors
         return HttpResponse("Error: " + payment.error)    
+    
+
+def meal_plan_api(request, weight_status_id):
+        weight_status_map = {
+            1: "underweight",
+            2: "normal",
+            3: "overweight",
+            4: "obesity"
+        }
+
+def meal_plan_api(request, weight_status_id):
+    meal_plans = [
+      {"id": 1,
+      "day1": {
+    "breakfast": "Ful medames with olive oil, tomatoes, onions, and whole wheat pita bread",
+    "snack1": "Greek yogurt with honey and mixed nuts (~300 calories)",
+    "lunch": "Koshari topped with caramelized onions (~600 calories)",
+    "snack2": "Fresh fruit salad with honey (~150 calories)",
+    "dinner": "Vegetable stir-fry with tofu, broccoli, bell peppers, and snap peas, served with quinoa (~750 calories)"
+  },
+  "day2": {
+    "breakfast": "Shakshuka with sautéed vegetables and whole wheat bread (~400 calories)",
+    "snack1": "Cottage cheese with pineapple chunks (~250 calories)",
+    "lunch": "Egyptian-style lentil soup with whole wheat bread (~400 calories)",
+    "snack2": "Hummus with raw carrot and cucumber sticks (~200 calories)",
+    "dinner": "Stuffed bell peppers with quinoa, black beans, and corn (~750 calories)"
+  },
+  "day3": {
+    "breakfast": "Omelette with spinach, tomatoes, onions, and bell peppers, served with whole wheat toast (~400 calories)",
+    "snack1": "Apple slices with almond butter (~200 calories)",
+    "lunch": "Egyptian-style chickpea stew with spinach, onions, and garlic, served with whole wheat pita bread (~500 calories)",
+    "snack2": "Greek yogurt with berries (~200 calories)",
+    "dinner": "Vegetable curry with chickpeas, cauliflower, carrots, and potatoes, served with whole wheat naan bread (~750 calories)"
+  },
+  "day4": {
+    "breakfast": "Egyptian-style scrambled eggs with tomatoes, onions, and bell peppers, served with whole wheat pita bread (~400 calories)",
+    "snack1": "Rice cakes with avocado slices and cherry tomatoes (~300 calories)",
+    "lunch": "Mujadara topped with caramelized onions and served with tabbouleh salad (~600 calories)",
+    "snack2": "Trail mix (nuts and dried fruits) (~250 calories)",
+    "dinner": "Vegetable stir-fry with tofu, mushrooms, bok choy, and snow peas, served with quinoa (~750 calories)"
+  },
+  "day5": {
+    "breakfast": "Ful medames with olive oil, tomatoes, onions, and whole wheat pita bread (~400 calories)",
+    "snack1": "Greek yogurt with honey and mixed nuts (~300 calories)",
+    "lunch": "Lentil and vegetable curry with spinach, carrots, and zucchini, served with quinoa (~600 calories)",
+    "snack2": "Fresh fruit salad with honey (~150 calories)",
+    "dinner": "Vegetarian chili with kidney beans, black beans, corn, tomatoes, and bell peppers, served with cornbread (~750 calories)"
+  },
+  "day6": {
+    "breakfast": "Scrambled tofu with tomatoes, onions, spinach, and turmeric, served with whole wheat toast (~400 calories)",
+    "snack1": "Carrot and cucumber sticks with hummus (~200 calories)",
+    "lunch": "Mixed bean salad with chickpeas, kidney beans, black beans, and lemon-tahini dressing, served with whole wheat pita bread (~600 calories)",
+    "snack2": "Low-fat yogurt with berries (~200 calories)",
+    "dinner": "Vegetable stir-fry with tofu, broccoli, bell peppers, and snap peas, served with quinoa (~750 calories)"
+  },
+  "day7": {
+    "breakfast": "Overnight oats with almond milk, chia seeds, bananas, cinnamon, and sliced almonds (~400 calories)",
+    "snack1": "Rice cakes with almond butter (~300 calories)",
+    "lunch": "Egyptian-style lentil soup with whole wheat bread (~400 calories)",
+    "snack2": "Apple slices with peanut butter (~250 calories)",
+    "dinner": "Vegetable stir-fry with tofu, broccoli, bell peppers, and snap peas, served with quinoa (~750 calories)"
+  }},
+      {"id": 2,
+      "day1": {
+    "breakfast": "Ful medames with olive oil, tomatoes, onions, and whole wheat pita bread (~400 calories)",
+    "snack1": "Greek yogurt with honey and mixed nuts (~300 calories)",
+    "lunch": "Koshari topped with caramelized onions (~500 calories)",
+    "snack2": "Fresh fruit salad with honey (~150 calories)",
+    "dinner": "Vegetable stir-fry with tofu, broccoli, bell peppers, and snap peas, served with quinoa (~650 calories)"
+  },
+  "day2": {
+    "breakfast": "Shakshuka with sautéed vegetables and whole wheat bread (~400 calories)",
+    "snack1": "Cottage cheese with pineapple chunks (~250 calories)",
+    "lunch": "Egyptian-style lentil soup with whole wheat bread (~400 calories)",
+    "snack2": "Hummus with raw carrot and cucumber sticks (~200 calories)",
+    "dinner": "Stuffed bell peppers with quinoa, black beans, and corn (~750 calories)"
+  },
+  "day3": {
+    "breakfast": "Omelette with spinach, tomatoes, onions, and bell peppers, served with whole wheat toast (~400 calories)",
+    "snack1": "Apple slices with almond butter (~200 calories)",
+    "lunch": "Egyptian-style chickpea stew with spinach, onions, and garlic, served with whole wheat pita bread (~500 calories)",
+    "snack2": "Greek yogurt with berries (~200 calories)",
+    "dinner": "Vegetable curry with chickpeas, cauliflower, carrots, and potatoes, served with whole wheat naan bread (~750 calories)"
+  },
+  "day4": {
+    "breakfast": "Egyptian-style scrambled eggs with tomatoes, onions, and bell peppers, served with whole wheat pita bread (~400 calories)",
+    "snack1": "Rice cakes with avocado slices and cherry tomatoes (~300 calories)",
+    "lunch": "Mujadara topped with caramelized onions and served with tabbouleh salad (~600 calories)",
+    "snack2": "Trail mix (nuts and dried fruits) (~250 calories)",
+    "dinner": "Vegetable stir-fry with tofu, mushrooms, bok choy, and snow peas, served with quinoa (~650 calories)"
+  },
+  "day5": {
+    "breakfast": "Ful medames with olive oil, tomatoes, onions, and whole wheat pita bread (~400 calories)",
+    "snack1": "Greek yogurt with honey and mixed nuts (~300 calories)",
+    "lunch": "Lentil and vegetable curry with spinach, carrots, and zucchini, served with quinoa (~600 calories)",
+    "snack2": "Fresh fruit salad with honey (~150 calories)",
+    "dinner": "Vegetarian chili with kidney beans, black beans, corn, tomatoes, and bell peppers, served with cornbread (~750 calories)"
+  },
+  "day6": {
+    "breakfast": "Scrambled tofu with tomatoes, onions, spinach, and turmeric, served with whole wheat toast (~400 calories)",
+    "snack1": "Carrot and cucumber sticks with hummus (~200 calories)",
+    "lunch": "Mixed bean salad with chickpeas, kidney beans, black beans, and lemon-tahini dressing, served with whole wheat pita bread (~600 calories)",
+    "snack2": "Low-fat yogurt with berries (~200 calories)",
+    "dinner": "Vegetable stir-fry with tofu, broccoli, bell peppers, and snap peas, served with quinoa (~650 calories)"
+  },
+  "day7": {
+    "breakfast": "Overnight oats with almond milk, chia seeds, bananas, cinnamon, and sliced almonds (~400 calories)",
+    "snack1": "Rice cakes with almond butter (~300 calories)",
+    "lunch": "Egyptian-style lentil soup with whole wheat bread (~400 calories)",
+    "snack2": "Apple slices with peanut butter (~250 calories)",
+    "dinner": "Vegetable stir-fry with tofu, broccoli, bell peppers, and snap peas, served with quinoa (~650 calories)"
+  }},
+      {"id": 3,
+       "day1": {
+    "breakfast": "Ful medames with olive oil, tomatoes, onions, and whole wheat pita bread (~350 calories)",
+    "snack1": "Greek yogurt with honey and mixed nuts (~250 calories)",
+    "lunch": "Koshari topped with caramelized onions (~400 calories)",
+    "snack2": "Fresh fruit salad with honey (~100 calories)",
+    "dinner": "Vegetable stir-fry with tofu, broccoli, bell peppers, and snap peas, served with quinoa (~700 calories)"
+  },
+  "day2": {
+    "breakfast": "Shakshuka with sautéed vegetables and whole wheat bread (~350 calories)",
+    "snack1": "Cottage cheese with pineapple chunks (~200 calories)",
+    "lunch": "Egyptian-style lentil soup with whole wheat bread (~350 calories)",
+    "snack2": "Hummus with raw carrot and cucumber sticks (~150 calories)",
+    "dinner": "Stuffed bell peppers with quinoa, black beans, and corn (~750 calories)"
+  },
+  "day3": {
+    "breakfast": "Omelette with spinach, tomatoes, onions, and bell peppers, served with whole wheat toast (~350 calories)",
+    "snack1": "Apple slices with almond butter (~150 calories)",
+    "lunch": "Egyptian-style chickpea stew with spinach, onions, and garlic, served with whole wheat pita bread (~400 calories)",
+    "snack2": "Greek yogurt with berries (~150 calories)",
+    "dinner": "Vegetable curry with chickpeas, cauliflower, carrots, and potatoes, served with whole wheat naan bread (~750 calories)"
+  },
+  "day4": {
+    "breakfast": "Egyptian-style scrambled eggs with tomatoes, onions, and bell peppers, served with whole wheat pita bread (~350 calories)",
+    "snack1": "Rice cakes with avocado slices and cherry tomatoes (~200 calories)",
+    "lunch": "Mujadara topped with caramelized onions and served with tabbouleh salad (~500 calories)",
+    "snack2": "Trail mix (nuts and dried fruits) (~200 calories)",
+    "dinner": "Vegetable stir-fry with tofu, mushrooms, bok choy, and snow peas, served with quinoa (~700 calories)"
+  },
+  "day5": {
+    "breakfast": "Ful medames with olive oil, tomatoes, onions, and whole wheat pita bread (~350 calories)",
+    "snack1": "Greek yogurt with honey and mixed nuts (~250 calories)",
+    "lunch": "Lentil and vegetable curry with spinach, carrots, and zucchini, served with quinoa (~550 calories)",
+    "snack2": "Fresh fruit salad with honey (~100 calories)",
+    "dinner": "Vegetarian chili with kidney beans, black beans, corn, tomatoes, and bell peppers, served with cornbread (~750 calories)"
+  },
+  "day6": {
+    "breakfast": "Scrambled tofu with tomatoes, onions, spinach, and turmeric, served with whole wheat toast (~350 calories)",
+    "snack1": "Carrot and cucumber sticks with hummus (~150 calories)",
+    "lunch": "Mixed bean salad with chickpeas, kidney beans, black beans, and lemon-tahini dressing, served with whole wheat pita bread (~500 calories)",
+    "snack2": "Low-fat yogurt with berries (~150 calories)",
+    "dinner": "Vegetable stir-fry with tofu, broccoli, bell peppers, and snap peas, served with quinoa (~700 calories)"
+  },
+  "day7": {
+    "breakfast": "Overnight oats with almond milk, chia seeds, bananas, cinnamon, and sliced almonds (~350 calories)",
+    "snack1": "Rice cakes with almond butter (~250 calories)",
+    "lunch": "Egyptian-style lentil soup with whole wheat bread (~350 calories)",
+    "snack2": "Apple slices with peanut butter (~200 calories)",
+    "dinner": "Vegetable stir-fry with tofu, broccoli, bell peppers, and snap peas, served with quinoa (~700 calories)"
+  }},
+      {"id": 4,
+      "day1": {
+    "breakfast": "Ful medames with olive oil, tomatoes, onions, and whole wheat pita bread (~300 calories)",
+    "snack1": "Greek yogurt with honey and mixed nuts (~200 calories)",
+    "lunch": "Koshari topped with caramelized onions (~300 calories)",
+    "snack2": "Fresh fruit salad with honey (~100 calories)",
+    "dinner": "Vegetable stir-fry with tofu, broccoli, bell peppers, and snap peas, served with quinoa (~600 calories)"
+  },
+  "day2": {
+    "breakfast": "Shakshuka with sautéed vegetables and whole wheat bread (~300 calories)",
+    "snack1": "Cottage cheese with pineapple chunks (~150 calories)",
+    "lunch": "Egyptian-style lentil soup with whole wheat bread (~300 calories)",
+    "snack2": "Hummus with raw carrot and cucumber sticks (~100 calories)",
+    "dinner": "Stuffed bell peppers with quinoa, black beans, and corn (~650 calories)"
+  },
+  "day3": {
+    "breakfast": "Omelette with spinach, tomatoes, onions, and bell peppers, served with whole wheat toast (~300 calories)",
+    "snack1": "Apple slices with almond butter (~100 calories)",
+    "lunch": "Egyptian-style chickpea stew with spinach, onions, and garlic, served with whole wheat pita bread (~350 calories)",
+    "snack2": "Greek yogurt with berries (~150 calories)",
+    "dinner": "Vegetable curry with chickpeas, cauliflower, carrots, and potatoes, served with whole wheat naan bread (~600 calories)"
+  },
+  "day4": {
+    "breakfast": "Egyptian-style scrambled eggs with tomatoes, onions, and bell peppers, served with whole wheat pita bread (~300 calories)",
+    "snack1": "Rice cakes with avocado slices and cherry tomatoes (~150 calories)",
+    "lunch": "Mujadara topped with caramelized onions and served with tabbouleh salad (~400 calories)",
+    "snack2": "Trail mix (nuts and dried fruits) (~150 calories)",
+    "dinner": "Vegetable stir-fry with tofu, mushrooms, bok choy, and snow peas, served with quinoa (~600 calories)"
+  },
+  "day5": {
+    "breakfast": "Ful medames with olive oil, tomatoes, onions, and whole wheat pita bread (~300 calories)",
+    "snack1": "Greek yogurt with honey and mixed nuts (~200 calories)",
+    "lunch": "Lentil and vegetable curry with spinach, carrots, and zucchini, served with quinoa (~450 calories)",
+    "snack2": "Fresh fruit salad with honey (~100 calories)",
+    "dinner": "Vegetarian chili with kidney beans, black beans, corn, tomatoes, and bell peppers, served with cornbread (~650 calories)"
+  },
+  "day6": {
+    "breakfast": "Scrambled tofu with tomatoes, onions, spinach, and turmeric, served with whole wheat toast (~300 calories)",
+    "snack1": "Carrot and cucumber sticks with hummus (~100 calories)",
+    "lunch": "Mixed bean salad with chickpeas, kidney beans, black beans, and lemon-tahini dressing, served with whole wheat pita bread (~450 calories)",
+    "snack2": "Low-fat yogurt with berries (~150 calories)",
+    "dinner": "Vegetable stir-fry with tofu, broccoli, bell peppers, and snap peas, served with quinoa (~600 calories)"
+  },
+  "day7": {
+    "breakfast": "Overnight oats with almond milk, chia seeds, bananas, cinnamon, and sliced almonds (~300 calories)",
+    "snack1": "Rice cakes with almond butter (~200 calories)",
+    "lunch": "Egyptian-style lentil soup with whole wheat bread (~300 calories)",
+    "snack2": "Apple slices with peanut butter (~150 calories)",
+    "dinner": "Vegetable stir-fry with tofu, broccoli, bell peppers, and snap peas, served with quinoa (~650 calories)"
+  }
+    }
+    ]
+
+    for meal_plan in meal_plans:
+        if meal_plan["id"] == weight_status_id:
+            return JsonResponse(meal_plan)
+
+    return JsonResponse({"error": "meal plan not found"}, status=404)
+
+
+def nutrition_instructions(request, disease_status_id):
+        disease_status_map = {
+            1: "Diabetes_Mellitus",
+            2: "Hypertension",
+            3: "Chronic_Kidney_Disease",
+            4: "Heart_Disease"
+        }
+        
+def nutrition_instructions(request,disease_status_id):
+    instructions = [
+        {"id": 1,
+            "name":"Diabetes Mellitus",
+            "instructions": [
+                "Monitor carbohydrate intake: Focus on consuming complex carbohydrates with a low glycemic index.",
+                "Choose healthy fats: Opt for unsaturated fats found in nuts, seeds, avocados, and fatty fish.",
+                "Control portion sizes: Eat smaller, balanced meals throughout the day.",
+                "Limit added sugars: Minimize intake of sugary beverages, desserts, and processed foods.",
+                "Monitor sodium intake: Be cautious of high-sodium foods."
+            ]},
+        {"id": 2,
+            "name":"Hypertension",
+            "instructions": [
+                "Reduce sodium intake: Limit consumption of high-sodium foods like processed foods and salty snacks.",
+                "Increase potassium-rich foods: Consume bananas, oranges, spinach, and sweet potatoes.",
+                "Maintain a healthy weight: Focus on a balanced diet and regular physical activity.",
+                "Monitor caffeine intake: Limit excessive caffeine consumption."
+            ]
+        },
+        {"id": 3,
+            "name":"Chronic Kidney Disease",
+            "instructions": [
+                "Control protein intake: Reduce overall protein consumption.",
+                "Monitor phosphorus and potassium: Limit intake of high-phosphorus and potassium-rich foods.",
+                "Manage fluid intake: Follow guidelines to prevent fluid buildup.",
+                "Limit salt intake: Lower sodium intake to manage blood pressure and fluid retention.",
+                "Monitor calcium and vitamin D: Ensure adequate intake for bone health."
+            ]
+        },
+        {"id": 4,
+            "name":"Heart Disease",
+            "instructions": [
+                "Limit saturated and trans fats: Minimize intake of fried foods, processed meats, and baked goods.",
+                "Increase fiber intake: Choose fiber-rich foods like whole grains, legumes, fruits, and vegetables.",
+                "Control portion sizes: Eat smaller, balanced meals to maintain a healthy weight.",
+                "Manage cholesterol levels: Choose lean protein sources."
+            ]
+        }
+    ]
+
+
+    for instructions in instructions:
+            if instructions["id"] == disease_status_id:
+                return JsonResponse(instructions)
+            
+    return JsonResponse({"error": "meal plan not found"}, status=404)
