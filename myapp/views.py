@@ -12,6 +12,8 @@ from .models import Appointment ,Doctor, Payment, Review
 from .serializers import AppointmentSerializer ,DoctorsSerializer, PaymentSerializer, ReviewSerializer
 from rest_framework import viewsets
 import paypalrestsdk
+from django.utils.datastructures import MultiValueDictKeyError
+
 import json
 
 
@@ -96,21 +98,22 @@ class CustomUserViewSet(viewsets.ModelViewSet):
 class PatientViewSet(viewsets.ModelViewSet):
     queryset = Patient.objects.all()
     serializer_class = PatientSerializer
+
     def create(self, request, *args, **kwargs):
-        username=request.data["username"]
-
-        name=request.data["name"]
-        age=request.data["age"]
-        image=request.data["image"]
-        weight=request.data["weight"]
-        gender=request.data["gender"]
-        phone=request.data["phone"]
-        height =request.data["height"]
-        medical_history=request.data["medical_history"]
-        Patient.objects.create(username=username,name=name,age=age,image=image,weight=weight,gender=gender,phone=phone,height=height, medical_history= medical_history)
-        return Response(status=status.HTTP_200_OK)
-    
-
+        try:
+            username = request.data["username"]
+            name = request.data["name"]
+            age = request.data["age"]
+            image = request.data["image"]
+            weight = request.data["weight"]
+            gender = request.data["gender"]
+            phone = request.data["phone"]
+            height = request.data["height"]
+            medical_history = request.data.get("medical_history", "")  # Provide default value if key is missing
+            Patient.objects.create(username=username, name=name, age=age, image=image, weight=weight, gender=gender, phone=phone, height=height, medical_history=medical_history)
+            return Response(status=status.HTTP_200_OK)
+        except MultiValueDictKeyError as e:
+            return Response({"error": f"KeyError: {str(e)}"}, status=status.HTTP_400_BAD_REQUEST)
 # views.py
 from rest_framework import generics
 from .models import Availability

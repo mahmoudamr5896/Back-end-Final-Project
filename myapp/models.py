@@ -52,9 +52,9 @@ class Patient(models.Model):
         ('M', 'Male'),
         ('F', 'Female'),
     )
-    username = models.CharField(unique=True,max_length=100,blank=True, null=True)  # Assuming username is unique
-    name=models.CharField(max_length=100,blank=True, null=True)
-    image=models.ImageField(upload_to='img',null=True,blank=True)
+    username = models.CharField(unique=True, max_length=100, blank=True, null=True)  # Assuming username is unique
+    name = models.CharField(max_length=100, blank=True, null=True)
+    image = models.ImageField(upload_to='img', null=True, blank=True)
     age = models.IntegerField()
     weight = models.FloatField()
     height = models.FloatField()
@@ -64,13 +64,15 @@ class Patient(models.Model):
     Hypertension = models.BooleanField(default=False)
     Chronic_Kidney_Disease = models.BooleanField(default=False)
     Heart_Disease = models.BooleanField(default=False)
+    medical_history = models.TextField(blank=True, null=True)  # Adding medical_history field
 
     @property
     def user(self):
         return CustomUser.objects.get(username=self.username)
-    
+
     def __str__(self):
         return self.name
+
     from django.core.validators import MinValueValidator, MaxValueValidator
 
 
