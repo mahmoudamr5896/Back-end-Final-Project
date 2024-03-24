@@ -3,12 +3,14 @@ from django.shortcuts import redirect
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .models import Appointment ,Doctor, Payment, Review
-from .serializers import AppointmentSerializer ,DoctorsSerializer, PaymentSerializer, ReviewSerializer
 
 from users.models import User
 from .models import Appointment ,Doctor, Review
 from .serializers import AppointmentSerializer ,DoctorsSerializer, ReviewSerializer
+from rest_framework import viewsets
+from django.core.mail import EmailMultiAlternatives
+from .models import Appointment ,Doctor, Payment, Review
+from .serializers import AppointmentSerializer ,DoctorsSerializer, PaymentSerializer, ReviewSerializer
 from rest_framework import viewsets
 import paypalrestsdk
 
@@ -37,6 +39,38 @@ class AppointmentViewSet(viewsets.ModelViewSet):
     queryset = Appointment.objects.all()
     serializer_class = AppointmentSerializer
 
+    def update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        respone= super().update(request, *args, **kwargs)
+        status = request.data["status"]
+        user = User.objects.filter(username__iexact=instance.username).first()
+        email  = user.email
+        self.send_approve_mail(status,email)
+        return respone
+    
+    @staticmethod
+    def send_approve_mail(approve,email):
+        if approve:
+            message = "Your appointment has been approved , visit your profile for more informations."
+            email_subject = "appointment approved"
+        else:
+            message = "Your appointment has been rejected , visit your profile for more informations."
+            email_subject = "appointment rejected"
+
+        try:
+          
+            email_sender = "sender@example.com"
+            email_recipient = email
+
+            email_message = EmailMultiAlternatives(
+                subject=email_subject,
+                body=message,
+                from_email=email_sender,
+                to=[email_recipient, ]
+            )
+            email_message.send(fail_silently=False)
+        except Exception as e:
+            print(e)
 class ReviewFunBaseView(viewsets.ModelViewSet):
     serializer_class = ReviewSerializer
 
@@ -160,55 +194,3 @@ def create_payment(request):
     else:
         # Handle payment creation errors
         return HttpResponse("Error: " + payment.error)    
-    
-def paypal_success(request):
-    # Handle successful PayPal payment here
-    return HttpResponse("Payment successful. Thank you!")
-
-def paypal_cancel(request):
-    # Handle canceled PayPal payment here
-    return HttpResponse("Payment canceled.")
-
-paypalrestsdk.configure({
-    "mode": "sandbox",  # Use "live" for production
-    "client_id": "Ac33URymejOEqeyKbbCIB9ZBp2q9Yf1LTtUV7-mSyQrFWls4w40cgFN7H96P2Bh8GyLa0GY1lKrzIz2V",
-    "client_secret": "EOxozpUAMQWpxUsBIq_vt9e5nkLpgu3ccv8YpWUlBF16N0Kpmr7bTpxaMCMILOAzvzhT4lsEFBfcIr3s"
-})
-
-def create_payment(request):
-    payment = paypalrestsdk.Payment({
-        "intent": "sale",
-        "payer": {
-            "payment_method": "paypal"
-        },
-        "redirect_urls": {
-          "return_url": "http://127.0.0.1:8000/paypal/success/",  # Update with your localhost URL
-           "cancel_url": "http://127.0.0.1:8000/paypal/cancel/",   # Update with your localhost URL
-        },
-        "transactions": [{
-            "item_list": {
-                "items": [{
-                    "name": "Item 1",
-                    "sku": "item_1",
-                    "price": "10.00",
-                    "currency": "USD",
-                    "quantity": 1
-                }]
-            },
-            "amount": {
-                "total": "10.00",
-                "currency": "USD"
-            },
-            "description": "This is a test transaction."
-        }]
-    })
-
-    if payment.create():
-        # Redirect the user to the PayPal approval URL
-        for link in payment.links:
-            if link.method == "REDIRECT":
-                redirect_url = link.href
-                return redirect(redirect_url)
-    else:
-        # Handle payment creation errors
-        return HttpResponse("Error: " + payment.error)
