@@ -31,7 +31,93 @@ APPEND_SLASH = False
 
 # Application definition
 
+JAZZMIN_SETTINGS = {
+    "site_title": "MR.Health",
+    "site_header": "MR.Health",
+    "site_brand": "MR.Health",
+    "site_icon": "For_Rent_Backend/static/images/logo.jpeg",
+    "show_ui_builder": True,
+    "site_footer": "Copyright © 2024 MR.Health",
+    "welcome_sign": "Welcome to MR.Health Admin Panel",
+    "site_style": "info",  # Change the theme to 'info'
+    "dark_mode_theme": "darkly",  # Set the dark mode theme to 'darkly'
+    "show_apps": True,
+    "show_models": True,
+    "related_modal_active": True,
+    "default_icon_parents": "fa fa-list",
+    "default_icon_children": "fas fa-chevron-circle-right",
+    'icons': {
+        'auth': 'fas fa-users-cog',
+        'auth.user': 'fas fa-user',
+        'auth.group': 'fas fa-users',
+        'myapp.customuser': 'fas fa-user',
+        'myapp.doctor': 'fas fa-user-md',
+        'myapp.patient': 'fas fa-user-injured',
+        'myapp.appointment': 'fas fa-calendar-check',
+        'myapp.review': 'fas fa-star',
+        'myapp.availability': 'fas fa-clock',
+        'myapp.payment': 'fas fa-credit-card',
+    },
+    'dashboard_custom': False,
+    'custom_css': None,
+    'custom_js': None,
+    'button_classes': {
+        'primary': 'btn btn-primary',  # Change button style to 'btn-primary'
+        'secondary': 'btn btn-secondary',  # Add button style for 'btn-secondary'
+        'success': 'btn btn-success',  # Add button style for 'btn-success'
+        'info': 'btn btn-info',  # Add button style for 'btn-info'
+        'warning': 'btn btn-warning',  # Add button style for 'btn-warning'
+        'danger': 'btn btn-danger',  # Add button style for 'btn-danger'
+        'add': 'btn btn-success',  # Style for "Add" button
+        'change': 'btn btn-warning',  # Style for "Change" button
+    },
+    'navbar_small_text': False,  # Set navbar small text to False
+    'top_navbar': True,  # Enable top navbar
+    'hide_apps': ['sites'],  # Hide the "sites" app
+    'hide_models': ['auth.Group'],  # Hide the "Group" model in the auth app
+    'changeform_format': 'horizontal',  # Set changeform format to 'horizontal'
+    'related_modal_active': True,  # Enable related modal
+    'app_title_style': 'roman',  # Set app title style to 'roman'
+}
+JAZZMIN_UI_TWEAKS = {
+    "navbar_small_text": False,
+    "footer_small_text": False,
+    "body_small_text": False,
+    "brand_small_text": False,
+    "brand_colour": "navbar-success",
+    "accent": "accent-teal",
+    "navbar": "navbar-dark",
+    "no_navbar_border": True,
+    "navbar_fixed": False,
+    "layout_boxed": False,
+    "footer_fixed": False,
+    "sidebar_fixed": False,
+    "sidebar": "sidebar-dark-info",
+    "sidebar_nav_small_text": False,
+    "sidebar_disable_expand": False,
+    "sidebar_nav_child_indent": False,
+    "sidebar_nav_compact_style": False,
+    "sidebar_nav_legacy_style": False,
+    "sidebar_nav_flat_style": False,
+    "theme": "slate",
+    "dark_mode_theme": "darkly",
+    "button_classes": {
+        "primary": "btn-primary",
+        "secondary": "btn-secondary",
+        "info": "btn-info",
+        "warning": "btn-warning",
+        "danger": "btn-danger",
+        "success": "btn-success",
+    },
+}
+
+
+
+
+
+
 INSTALLED_APPS = [
+    'jazzmin',
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -39,6 +125,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     'myapp',
+    
     'rest_framework',
     'users',
     "django.contrib.sites",
@@ -141,6 +228,9 @@ CORS_ALLOW_ALL_ORIGINS = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
 
 STATIC_URL = "static/"
 STATIC_FILES_DIRS = [os.path.join(BASE_DIR, "static")]
