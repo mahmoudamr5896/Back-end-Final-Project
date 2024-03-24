@@ -472,3 +472,98 @@ def nutrition_instructions(request,disease_status_id):
                 return JsonResponse(instructions)
             
     return JsonResponse({"error": "meal plan not found"}, status=404)
+
+
+def exercise_plan(request, exercise_plan_id):
+        exercise_plan_map = {
+            1: "underweight",
+            2: "normal",
+            3: "overweight",
+            4: "obesity"
+        }
+        
+def exercise_plan(request,exercise_plan_id):
+    exercise_plan = [
+        {"id": 1,
+        "exercise_plan": {
+        "focus": "Build muscle mass and improve overall health",
+        "exercises": [
+            {
+            "type": "Strength training",
+            "description": "Include compound exercises like squats, deadlifts, and bench presses"
+            },
+            {
+            "type": "Resistance training",
+            "description": "Use moderate weights with higher repetitions"
+            },
+            {
+            "type": "Aerobic exercises",
+            "description": "Engage in activities like jogging, cycling, or swimming for cardiovascular health"
+            }
+        ]
+        }
+    },
+    {"id": 2,
+        "exercise_plan": {
+        "focus": "Maintain overall health and fitness",
+        "exercises": [
+            {
+            "type": "Cardiovascular exercises",
+            "description": "Include running, brisk walking, or cycling for at least 150 minutes per week"
+            },
+            {
+            "type": "Strength training",
+            "description": "Target major muscle groups 2-3 times per week"
+            },
+            {
+            "type": "Flexibility and balance exercises",
+            "description": "Incorporate yoga or Pilates"
+            }
+        ]
+        }
+    },
+    {"id": 3,
+        "exercise_plan": {
+        "focus": "Promote weight loss and improve fitness",
+        "exercises": [
+            {
+            "type": "Aerobic exercises",
+            "description": "Engage in moderate-intensity activities like brisk walking, swimming, or cycling for at least 150 minutes per week"
+            },
+            {
+            "type": "Strength training",
+            "description": "Build muscle mass and boost metabolism with exercises targeting multiple muscle groups"
+            },
+            {
+            "type": "Circuit training",
+            "description": "Combine aerobic and strength exercises in a circuit format"
+            }
+        ]
+        }
+    },
+    {"id": 4,
+        "exercise_plan": {
+        "focus": "Gradual weight loss and improved mobility",
+        "exercises": [
+            {
+            "type": "Low-impact aerobic exercises",
+            "description": "Start with activities like walking or water aerobics"
+            },
+            {
+            "type": "Gradual intensity increase",
+            "description": "Increase duration and intensity of aerobic exercises over time"
+            },
+            {
+            "type": "Strength and flexibility training",
+            "description": "Incorporate resistance and flexibility exercises to improve overall fitness"
+            }
+        ]
+        }}
+    ]
+
+
+    for exercise_plan in exercise_plan:
+            if exercise_plan["id"] == exercise_plan_id:
+                return JsonResponse(exercise_plan)
+            
+    return JsonResponse({"error": "exercise_plan not found"}, status=404)

@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include,re_path
 from rest_framework.routers import DefaultRouter
-from myapp.views import CustomUserViewSet, DoctorViewSet, AppointmentViewSet, PatientViewSet, PaymentViewSet, ReviewFunBaseView, meal_plan_api, nutrition_instructions
+from myapp.views import CustomUserViewSet, DoctorViewSet, AppointmentViewSet, PatientViewSet, PaymentViewSet, ReviewFunBaseView, exercise_plan, meal_plan_api, nutrition_instructions
 from users.views import UserViewSet, AuthViewSet, redirect_to_react
 from myapp.views import AvailabilityViewSet
 from myapp.views import DoctorAvailabilityView
@@ -45,7 +45,7 @@ urlpatterns = [
     path('doctors/<int:doctor_id>/availability/', DoctorAvailabilityView.as_view(), name='doctor_availability'),
     path('meal-plan/<int:weight_status_id>/', meal_plan_api, name='meal_plan_api'),
     path('nutrition_instructions/<int:disease_status_id>/', nutrition_instructions, name='nutrition_instructions'),
-
+    path('exercise_plan/<int:exercise_plan_id>/', exercise_plan, name='exercise_plan'),
 
 ]+ router.urls
 
