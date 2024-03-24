@@ -30,6 +30,7 @@ class Doctor(models.Model):
     gender = models.CharField(max_length=1, choices=GENDER_CHOICES)
     phone = models.CharField(max_length=20)
     location = models.CharField(max_length=100)
+    appointment_price = models.DecimalField(max_digits=10, decimal_places=2, default=0)  # Add this field
 
     def __str__(self):
         return self.name

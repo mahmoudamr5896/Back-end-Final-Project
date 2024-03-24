@@ -97,3 +97,8 @@ class PaymentSerializer(serializers.ModelSerializer):
     def get_patient_name(self, obj):
         appointment = obj.appointment
         return appointment.patient.name if appointment else None
+    def save(self, **kwargs):
+            appointment = self.validated_data['appointment']
+            appointment_price = appointment.doctor.appointment_price  # Get the appointment price from the doctor
+            self.validated_data['amount'] = appointment_price  # Set the amount field based on the appointment price
+            return super().save(**kwargs)
